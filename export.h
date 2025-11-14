@@ -86,10 +86,6 @@ struct Export {
         std::cout << commitCommand.c_str() << std::endl;
         std::cout << pushCommand.c_str() << std::endl;
     }
-
-    void importData() {
-
-    }
 };
 
 #endif
