@@ -1,13 +1,22 @@
 #include <fstream>
 #include <iostream>
 
+
+/*
+
+WARNING
+
+File is depreciated and no longer is being updated. Do not use. Use data.h instead!
+
+*/
+
 #ifndef export
 #define export
 
 std::string gitDirectory = "https://github.com/MagicalTinCan/battleshipServer.git";
 std::string localDirectory = "C:\\Users\\Public\\dataShtuff"; //RIP your stuff if you have something called dataShtuff
 std::string dataPath = localDirectory + "\\data.txt";
-bool initalDataImport = false; //intended for the moment
+bool initalDataImport = std::filesystem; //intended for the moment
 
 struct Export {
     int turn = 0;
@@ -76,6 +85,10 @@ struct Export {
         std::cout << addCommand.c_str() << std::endl;
         std::cout << commitCommand.c_str() << std::endl;
         std::cout << pushCommand.c_str() << std::endl;
+    }
+
+    void importData() {
+
     }
 };
 
