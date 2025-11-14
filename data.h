@@ -29,7 +29,7 @@ std::string batchUploader = projectDirectory + "upload.bat";
 
 struct data {
 
-    int turn = 1;
+    int turn = 0;
     int strikePos[2] = {0,0};
 
     void initalizeData() { //Run this first or im stealing your knees
@@ -44,8 +44,13 @@ struct data {
         int dataLine = 0;
         while (getline(DATA, textData)) {
             if (dataLine == 0) {
-                
+                turn = std::stoi(textData);
+            } else if (dataLine == 1) {
+                strikePos[0] = std::stoi(textData);
+            } else if (dataLine == 2) {
+                strikePos[1] = std::stoi(textData);
             }
+            dataLine++;
         }
     }
 

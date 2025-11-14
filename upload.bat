@@ -2,10 +2,10 @@
 
 set directory=%~1
 
-echo %directory%
+rem echo %directory%
 
 cd %directory%
 
-git add data.txt
-git commit -m "Action"
-git push
+git add data.txt > NUL
+git commit -q -m "Action" > NUL
+git push -q > NUL
