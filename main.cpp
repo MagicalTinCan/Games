@@ -1,77 +1,56 @@
 #include <iostream>
 #include <cstdlib>
-#include "data.h"
+#include <filesystem>
+#include "data.cpp"
+#include "files.h"
 /*
 #include "export.h"
 depreciated and non-functional
 */
 
-int board[10][10][3] = {{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}}};
-
-char pieceState(int firedUpon, int hit, int localShip) {
-    return '#';
-}
-
-void printBoard() {
-    for (int y = -1; y < 11; y++) {
-        for (int x = -1; x < 11; x++) {
-            if (y == -1 || y == 10) {
-                std::cout << "-";
-                if (x == 10) {
-                    std::cout << "\n";
-                }
-            } else {
-                if (x == -1 || x == 10) {
-                    std::cout << "|";
-                    if (x == 10) {
-                        std::cout << "\n";
+int main() {
+    data Data;
+    files Files;
+    Data.initalizeData();
+    int action = 0;
+    bool loggedIn = false;
+    std::string username;
+    std::string password;
+    do {
+        bool successfulInput = true;
+        std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Leave\n: ";
+        try {
+            std::cin >> action;
+        } catch (...) {
+            std::cout << "Give a correct input." << std::endl;
+            successfulInput = false;
+        }
+        if (successfulInput) {
+            if (action == 1) {
+                bool accountAlreadyExists = true;
+                do {
+                    std::cout << "Alright, give your character a name" << std::endl;
+                    std::cout << "(this will be used as your login credential and will be used to broadcast your username to other players)" << std::endl;
+                    std::cout << ": ";
+                    std::cin >> username;
+                    accountAlreadyExists = std::filesystem::exists(Files.localDirectory + Files.gitRemoteName + "\\" + username + ".txt");
+                    if (accountAlreadyExists) {
+                        std::cout << "Account already taken!" << std::endl;
                     }
-                } else {
-                    std::cout << pieceState(board[x][y][0],board[x][y][1],board[x][y][2]);
+                } while (accountAlreadyExists);
+                std::cout << "Alright, now give your account a password to secure it: ";
+                std::cin >> password;
+                Data.username = username;
+                Data.accountDataFile = username + ".txt";
+                std::string makeAccountCommand = "echo " + password + " > " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
+                system(makeAccountCommand.c_str());
+                makeAccountCommand = "echo 0 >> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
+                for (int x = 0; x < 5; x++) {
+                    system(makeAccountCommand.c_str());
                 }
+                Data.exportData(Data.accountDataFile);
             }
         }
-    }
-}
-
-int main() {
-    /*
-    data Data;
-    Data.initalizeData();
-    Data.importData();
-    std::cout << Data.turn << ":" << Data.strikePos[0] << ":" << Data.strikePos[1] << std::endl;
-    Data.turn = 1;
-    Data.strikePos[0] = 2;
-    Data.strikePos[1] = 3;
-    std::cout << Data.turn << ":" << Data.strikePos[0] << ":" << Data.strikePos[1] << std::endl;
-    Data.exportData();
-    */
-
-    data Data;
-    Data.initalizeData();
-    std::string playerName;
-    do {
-    std::cout << "What player are you (1 or 2): ";
-    std::cin >> playerName;
-    } while (playerName != "1" && playerName != "2" && !(playerName == "moderator" || playerName == "mod"));
-
-    if (playerName == "moderator" || playerName == "mod") {
-        std::string userInput;
-        do {
-            std::cout << "Options:\n1) Begin game\n2) End game early\n3) Exit\n:";
-            std::cin >> userInput;
-            if (userInput == "1") {
-                Data.turn = 1;
-                Data.exportData();
-            } else if (userInput == "2") { //soft reset, can be overwritten by players. implemented to allow if players disconnect.
-                Data.turn = 0;
-                Data.exportData();
-            }
-        } while (userInput != "3");
-    } else {
-        printBoard();
-    }
-
-
+    } while (!loggedIn);
     return 0;
 }
