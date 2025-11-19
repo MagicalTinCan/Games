@@ -4,6 +4,7 @@ from sys import argv #[0] is directory of terminal... or file... one of em.
 directory = ""
 gitDirectory = ""
 gitRemoteName = ""
+projectDirectory = ""
 
 if len(argv) != 0:
     pathways = argv[1].split("525292925252929252529292") #for some reason argv wont split the pathways when i put a space, so now we're here
@@ -11,6 +12,7 @@ if len(argv) != 0:
     directory = pathways[0]
     gitDirectory = pathways[1]
     gitRemoteName = pathways[2]
+    projectDirectory = pathways[3]
 
 if not os.path.exists(directory):
     command = "mkdir " + directory
@@ -20,9 +22,12 @@ if not os.path.exists(directory + "\\" + gitRemoteName):
     #command = "git clone \"" + gitDirectory + "\" \"" + gitRemoteName + "\""
     command = "git clone -q \"" + gitDirectory + "\" \"" + directory + "\\" + gitRemoteName + "\""
     os.system(command)
+else:
+    command = projectDirectory + "\\" + "pull.bat" + " \"" + directory + "\\" + gitRemoteName + "\""
+    os.system(command)
 
 #print(directory + "\\" + gitRemoteName + "\\" + "data.txt")
-
+'''
 if not os.path.exists(directory + "\\" + gitRemoteName + "\\" + "data.txt"):
     blah =  directory + "\\" + gitRemoteName
     command = "echo > " + blah + "\\" + "data.txt"
@@ -37,3 +42,4 @@ if not os.path.exists(directory + "\\" + gitRemoteName + "\\" + "data.txt"):
     command = "git push " + blah
     #print(command)
     os.system(command)
+'''

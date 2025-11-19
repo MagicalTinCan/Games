@@ -12,7 +12,7 @@ struct data {
     std::string accountDataFile = "LEAVE ME ALONE";
 
     void initalizeData() { //Run this first or im stealing your knees
-        std::string initalizeCommand = "python \"" + Files.pythonInitalizer + "\" \"" + Files.localDirectory + "\"525292925252929252529292\"" + Files.gitRepository + "\"525292925252929252529292\"" + Files.gitRemoteName + "\"";
+        std::string initalizeCommand = "python \"" + Files.pythonInitalizer + "\" \"" + Files.localDirectory + "\"525292925252929252529292\"" + Files.gitRepository + "\"525292925252929252529292\"" + Files.gitRemoteName + "\"525292925252929252529292\"" + Files.projectDirectory + "\"";
         system(initalizeCommand.c_str());                                                            //Seperator
         //std::cout << initalizeCommand;
     }

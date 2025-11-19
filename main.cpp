@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <filesystem>
+#include <fstream>
 #include "data.cpp"
 #include "files.h"
 /*
@@ -16,6 +17,8 @@ int main() {
     bool loggedIn = false;
     std::string username;
     std::string password;
+    std::string null;
+    // Serves as a buffer for getline(cin) cause for some reason, getline takes whatever was put in for std::cin on a prior command
     do {
         bool successfulInput = true;
         std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Leave\n: ";
@@ -25,6 +28,7 @@ int main() {
             std::cout << "Give a correct input." << std::endl;
             successfulInput = false;
         }
+        getline(std::cin, null); //should stop auto input... probably.
         if (successfulInput) {
             if (action == 1) {
                 bool accountAlreadyExists = true;
@@ -32,23 +36,57 @@ int main() {
                     std::cout << "Alright, give your character a name" << std::endl;
                     std::cout << "(this will be used as your login credential and will be used to broadcast your username to other players)" << std::endl;
                     std::cout << ": ";
-                    std::cin >> username;
+                    getline(std::cin, username);
                     accountAlreadyExists = std::filesystem::exists(Files.localDirectory + Files.gitRemoteName + "\\" + username + ".txt");
                     if (accountAlreadyExists) {
                         std::cout << "Account already taken!" << std::endl;
                     }
                 } while (accountAlreadyExists);
                 std::cout << "Alright, now give your account a password to secure it: ";
-                std::cin >> password;
+                getline(std::cin, password);
                 Data.username = username;
                 Data.accountDataFile = username + ".txt";
-                std::string makeAccountCommand = "echo " + password + " > " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
+                std::string makeAccountCommand = "echo " + password + "> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
                 system(makeAccountCommand.c_str());
-                makeAccountCommand = "echo 0 >> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
+                makeAccountCommand = "echo 0>> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
                 for (int x = 0; x < 5; x++) {
                     system(makeAccountCommand.c_str());
                 }
                 Data.exportData(Data.accountDataFile);
+                loggedIn = true;
+            } else if (action == 2) {
+                bool gaveUp = false;
+                do {
+                    std::cout << "Username: ";
+                    getline(std::cin, username);
+                    std::cout << "Password: ";
+                    getline(std::cin, password);
+                    bool accountExists = std::filesystem::exists(Files.localDirectory + Files.gitRemoteName + "\\" + username + ".txt");
+                    if (accountExists) {
+                        std::string accPassword = "undefinedUserPassword(0)(>)+=[]W";
+                        std::string firstLineTest;
+                        std::fstream plrData(Files.localDirectory + Files.gitRemoteName + "\\" + username + ".txt");
+                        getline(plrData, accPassword);
+                        plrData.close();
+                        if (password == accPassword) {
+                            std::cout << "Logged in." << std::endl;
+                            loggedIn = true;
+                        } else {
+                            std::cout << "Username/Password incorrect! 1" << std::endl;
+                            std::cout << "\"" << password << "\"" << std::endl;
+                            std::cout << "\"" << accPassword << "\"" << std::endl;
+                        }
+                    } else {
+                        std::cout << "Username/Password incorrect! 2" << std::endl;
+                    }
+                    if (!loggedIn) {
+                        std::cout << "Back to title?" << std::endl;
+                        std::cout << "(Y/N): ";
+                        std::string response;
+                        std::cin >> response;
+                        getline(std::cin, null);
+                    }
+                } while (!loggedIn && !gaveUp);
             }
         }
     } while (!loggedIn);
