@@ -2,8 +2,11 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
-#include "data.cpp"
+#include <chrono>
+#include <thread>
+#include "data.h" //changed back to .h instead of .cpp because of initalizing data and
 #include "files.h"
+#include "Game.cpp"
 /*
 #include "export.h"
 depreciated and non-functional
@@ -48,12 +51,12 @@ int main() {
                 Data.accountDataFile = username + ".txt";
                 std::string makeAccountCommand = "echo " + password + "> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
                 system(makeAccountCommand.c_str());
-                makeAccountCommand = "echo 0>> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
+                makeAccountCommand = "echo 0.0>> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
                 for (int x = 0; x < 5; x++) {
                     system(makeAccountCommand.c_str());
                 }
                 Data.exportData(Data.accountDataFile);
-                loggedIn = true;
+                //loggedIn = true;
             } else if (action == 2) {
                 bool gaveUp = false;
                 do {
@@ -71,22 +74,41 @@ int main() {
                         if (password == accPassword) {
                             std::cout << "Logged in." << std::endl;
                             loggedIn = true;
+                            game Game;
+                            Game.username = username;
+                            Game.accountDataFile = username + ".txt";
+                            Game.main();
                         } else {
-                            std::cout << "Username/Password incorrect! 1" << std::endl;
-                            std::cout << "\"" << password << "\"" << std::endl;
-                            std::cout << "\"" << accPassword << "\"" << std::endl;
+                            std::cout << "Username/Password incorrect!" << std::endl;
+                            //std::cout << "\"" << password << "\"" << std::endl; Testing purposes. DO NOT TOUCH.
+                            //std::cout << "\"" << accPassword << "\"" << std::endl; SECURITY BREACH IF UNCOMMENTED
                         }
                     } else {
-                        std::cout << "Username/Password incorrect! 2" << std::endl;
+                        std::cout << "Username/Password incorrect!" << std::endl;
                     }
                     if (!loggedIn) {
+                        bool improperResponse = true;
+                        do {
                         std::cout << "Back to title?" << std::endl;
                         std::cout << "(Y/N): ";
-                        std::string response;
+                        char response;
                         std::cin >> response;
-                        getline(std::cin, null);
+                        response = (char)std::tolower(response);
+                        if (response == 'y') {
+                            improperResponse = false;
+                            gaveUp = true;
+                        } else if (response == 'n') {
+                            improperResponse = false;
+                        } else {
+                            std::cout << "Give a proper response, Y/y, N/n." << std::endl;
+                        }
+                        getline(std::cin, null); //stops auto input for next getline.
+                        } while (improperResponse);
                     }
                 } while (!loggedIn && !gaveUp);
+            } else if (action == 3) {
+                loggedIn = true;
+                return 1; //Ends int main() {}
             }
         }
     } while (!loggedIn);

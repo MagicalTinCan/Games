@@ -11,6 +11,8 @@ struct files {
     std::string projectDirectory = std::filesystem::current_path().string() + "\\";
     std::string pythonInitalizer = projectDirectory + "initalizeData.py";
     std::string batchUploader = projectDirectory + "upload.bat";
+    std::string batchPull = projectDirectory + "pull.bat";
+    std::string batchClear = projectDirectory + "clearTheDamnScreen.bat";
 };
 
 
