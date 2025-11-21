@@ -16,3 +16,6 @@ exit
 Go to VSCode
 Try to run your code, if it asks for a compiler tell it any of these: gdb, gcc, or g++
 Try to run your code again twice. The first time you run it, it will throw up a bunch of text, just run it again.
+
+If you have any questions, ask me.
+- Samuel

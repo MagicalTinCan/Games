@@ -1,6 +1,12 @@
 #include <iostream>
 #include <filesystem>
 
+/*
+
+This file was made entirely by Samuel Campbell
+
+*/
+
 #ifndef files_h
 #define files_h
 

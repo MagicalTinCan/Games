@@ -2,14 +2,18 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
-#include <chrono>
-#include <thread>
 #include "data.h" //changed back to .h instead of .cpp because of initalizing data and
 #include "files.h"
 #include "Game.cpp"
 /*
 #include "export.h"
 depreciated and non-functional
+*/
+
+/*
+
+This file was made entirely by Samuel Campbell
+
 */
 
 int main() {
@@ -76,6 +80,7 @@ int main() {
                             loggedIn = true;
                             game Game;
                             Game.username = username;
+                            Game.password = password;
                             Game.accountDataFile = username + ".txt";
                             Game.main();
                         } else {

@@ -1,5 +1,7 @@
 @echo off
 
+rem Program made by Samuel Campbell
+
 set directory=%~1
 set file=%~2
 

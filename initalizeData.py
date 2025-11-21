@@ -1,6 +1,12 @@
 import os
 from sys import argv #[0] is directory of terminal... or file... one of em.
 
+'''
+
+This file was made entirely by Samuel Campbell
+
+'''
+
 directory = ""
 gitDirectory = ""
 gitRemoteName = ""
