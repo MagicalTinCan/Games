@@ -1,8 +1,10 @@
 #include <iostream>
-#include <random>
+#include <cstdlib>
 #include "data.h"
 #include "files.h"
 #include "item.h"
+
+#include "sokoban.cpp"
 
 /*
 
@@ -31,7 +33,7 @@ struct game {
     void streets() {
         int minigamesPlayed = 0;
         int minigamesNecessaryToEarn = 3;
-        std::string lookPrompts[3] = {"You take shallow breaths, the air smells horrid.", "You hear cars passing by, wonder if they'll let you hitchhike to Mnt. Sorrori", "You stand next to a gas station with a cup out in hand"}
+        std::string lookPrompts[3] = {"You take shallow breaths, the air smells horrid.", "You hear cars passing by, wonder if they'll let you hitchhike to Mnt. Sorrori", "You stand next to a gas station with a cup out in hand"};
         std::string action;
         do {
             std::string chosenPrompt = lookPrompts[rand() % (sizeof(lookPrompts) / sizeof(lookPrompts[0]))];
@@ -44,6 +46,18 @@ struct game {
             std::cin >> action;
             if (action == "1") {
                 // PLAY GAMES HERE
+                int chosenGame = std::rand() % 1;
+                bool wonGame;
+                if (chosenGame == 0) {
+                    sokobanGame sokoban;
+                    wonGame = sokoban.playGame();
+                }
+                if (wonGame) {
+                    minigamesPlayed += 1;
+                    if (minigamesPlayed == minigamesNecessaryToEarn) {
+                        minigamesPlayed = 0;
+                    }
+                }
             } else if (action == "3" && chosenPrompt == lookPrompts[1]) {
                 clear();
                 std::cout << "You scream at the top of your lungs at a particularly reddish looking carrivan, they started laughing at you as they peeled off, weirdo." << std::endl;
@@ -57,7 +71,7 @@ struct game {
     }
 
     void market() {
-        std::string lookPrompts[3] = {"You look around, you see many people shuffling around. The market must be hot today...", "You look up, the sun beaming down on your face is scaulding.", "You overhear a conversation between two disgruntled people, you ought to get moving..."}
+        std::string lookPrompts[3] = {"You look around, you see many people shuffling around. The market must be hot today...", "You look up, the sun beaming down on your face is scaulding.", "You overhear a conversation between two disgruntled people, you ought to get moving..."};
         std::string action = "-1";
         do {
             std::cout << lookPrompts[rand() % (sizeof(lookPrompts) / sizeof(lookPrompts[0]))] << std::endl; //randomizes each go
@@ -66,8 +80,8 @@ struct game {
             std::cout << "\t3) Leave" << std::endl;
             std::cout << ":";
         } while (action != "3");
-        std::string lookPrompts[3] = {"You turn around and head back, the smell of fruits and whole sales meat eventually disappearing...", "You look both ways before crossing, which is odd because you're walking on the sidewalk.", "You got chased out of the market by a group of ducks. Congradulations."}
-        std::string chosenPrompt = lookPrompts[rand() % (sizeof(lookPrompts) / sizeof(lookPrompts[0]))];
+        std::string troixlookPrompts[3] = {"You turn around and head back, the smell of fruits and whole sales meat eventually disappearing...", "You look both ways before crossing, which is odd because you're walking on the sidewalk.", "You got chased out of the market by a group of ducks. Congradulations."};
+        std::string chosenPrompt = troixlookPrompts[rand() % (sizeof(troixlookPrompts) / sizeof(troixlookPrompts[0]))];
     }
 
     void main() {
