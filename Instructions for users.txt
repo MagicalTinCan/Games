@@ -1,0 +1,23 @@
+To play the game, run main.exe
+Don't shove the code into an editor, it (probably) wont work.
+
+If the program isn't working, try checking if you meet these conditions:
+your computer has python.exe installed and is in the path folder
+    (you can check if its in the path folder by opening command prompt and typing in python and it doesnt throw some sort of error)
+your computer has git.exe installed and is in the path folder
+    (you can check by doing the same thing as with checking python.exe)
+the main.exe file is still in the folder with the rest of the code. if its taken out, it WILL break.
+you are connected to the internet
+    (if you are not then the git tool which uses to save/load into your game account which is located on a github server simply wont work)
+your folder contains every single essential file from download
+    essential files are:
+        main.exe
+        main.cpp
+        sokoban.cpp
+        data.h
+        files.h
+        item.h
+        initializeData.py
+        pull.bat
+        upload.bat
+        clearTheDamnScreen.bat

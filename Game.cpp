@@ -54,9 +54,11 @@ struct game {
                     wonGame = sokoban.playGame();
                 }
                 if (wonGame) {
+                    wonGame = false;
                     minigamesPlayed += 1;
                     if (minigamesPlayed == minigamesNecessaryToEarn) {
                         minigamesPlayed = 0;
+                        std::cout << "" << std::endl;
                     }
                 }
             } else if (action == "3" && chosenPrompt == lookPrompts[1]) {
