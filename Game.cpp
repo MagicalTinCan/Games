@@ -36,6 +36,7 @@ struct game {
         std::string lookPrompts[3] = {"You take shallow breaths, the air smells horrid.", "You hear cars passing by, wonder if they'll let you hitchhike to Mnt. Sorrori", "You stand next to a gas station with a cup out in hand"};
         std::string action;
         do {
+            clear();
             std::string chosenPrompt = lookPrompts[rand() % (sizeof(lookPrompts) / sizeof(lookPrompts[0]))];
             std::cout << "\t1) Beg for money" << std::endl;
             std::cout << "\t2) Leave" << std::endl;
@@ -99,6 +100,8 @@ struct game {
             std::cout << "\tl) Leave game" << std::endl; //changing input from e to l just incase people fat finger s and hit e.
             std::cout << ":";
             std::cin >> action;
+            std::cout << action;
+            std::cin.get();
             if (action == "1") {
                 streets();
             } else if (action == "2") {

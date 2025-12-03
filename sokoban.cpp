@@ -1,5 +1,6 @@
 #include <iostream>
-#include <cstdlib> //apparently rand isnt apart of <random>, but <cstdlib>. MAKE IT MAKE SENSE
+#include <cstdlib>
+//apparently rand isnt apart of <random>, but <cstdlib>. MAKE IT MAKE SENSE
 
 struct sokobanBoardPiece { //could also add in brittle ground, only lets player move on it, or maybe just box.
     bool isPlayer;
@@ -114,17 +115,13 @@ struct sokobanBoardPiece { //could also add in brittle ground, only lets player 
 sokobanBoardPiece board[4][6] = {};
 
 sokobanBoardPiece piece(char box) { // box options are w for wall, p for player, b for box, g for gem, h for hole, o (or any other char) for open area / empty space
-    if (box == 'p') //player
-        return sokobanBoardPiece(true, false, false, false, false);
-    if (box == 'b') //box
-        return sokobanBoardPiece(false, true, false, false, false);
-    if (box == 'h') //hole
-        return sokobanBoardPiece(false, false, true, false, false);
-    if (box == 'w') //wall
-        return sokobanBoardPiece(false, false, false, true, false);
-    if (box == 'g') //gem
-        return sokobanBoardPiece(false, false, false, false, true);
-    return sokobanBoardPiece(false, false, false, false, false); //empty space, open area
+    sokobanBoardPiece sBP;
+    sBP.isPlayer = box == 'p';
+    sBP.isBox = box == 'b';
+    sBP.isHole = box == 'h';
+    sBP.isWall = box == 'w';
+    sBP.isGem = box == 'g';
+    return sBP;
 }
 
 void loadBoard() {
@@ -132,21 +129,21 @@ void loadBoard() {
     int board_height = sizeof(board) / sizeof(board[0]);
     int board_width = sizeof(board[0]) / sizeof(board[0][0]);
 
-    int numOfMaps = 2;
+    int numOfMaps = 1;
     int chosenMap = std::rand() % numOfMaps;
     std::string mapLayout[4] = {};
-    if (chosenMap == 0) {
+    if (chosenMap == -1) {
         // board area is 6x4
         mapLayout[0] = "pwhoog";
         mapLayout[1] = "obgwww";
         mapLayout[2] = "owowww";
         mapLayout[3] = "ogoooo";
-    } else if (chosenMap == 1) {
+    } else if (chosenMap == 0) {
         // board area is 6x4
         mapLayout[0] = "pboooh";
-        mapLayout[0] = "wwwwwg";
-        mapLayout[0] = "ghoobo";
-        mapLayout[0] = "wwwwww";
+        mapLayout[1] = "wwwwwg";
+        mapLayout[2] = "ghoobo";
+        mapLayout[3] = "wwwwww";
     }
 
     for (int y = 0; y < board_height; y++) {
@@ -156,7 +153,7 @@ void loadBoard() {
     }
 }
 
-void newclear() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
+void clearDeux() { //C++ gets pissy if two functions in TWO DANG SERPERATE FILES have the same name. renamed it to include deux
     std::cout << "Test" << std::endl; //clear removes all lines except for the very last one, dunno why.
     files Files;
     std::string clearCommand = Files.batchClear;
@@ -195,7 +192,7 @@ struct sokobanGame {
         
         while (gemCount != 0) {
         
-            newclear();
+            clearDeux();
         
             for (int y = 0; y < board_height; y++) {
                 std::cout << beam << std::endl;

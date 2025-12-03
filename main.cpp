@@ -31,7 +31,7 @@ int main() {
         std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Leave\n: ";
         try {
             std::cin >> action;
-        } catch (...) {
+        } catch (...) { //one of the few things c++ actually gets right, universal catches. get rekt if you want to print the err, but still.
             std::cout << "Give a correct input." << std::endl;
             successfulInput = false;
         }
