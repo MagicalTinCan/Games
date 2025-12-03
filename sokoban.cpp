@@ -2,6 +2,12 @@
 #include <cstdlib>
 //apparently rand isnt apart of <random>, but <cstdlib>. MAKE IT MAKE SENSE
 
+/*
+
+This file was made entirely by Samuel Campbell
+
+*/
+
 struct sokobanBoardPiece { //could also add in brittle ground, only lets player move on it, or maybe just box.
     bool isPlayer;
     bool isBox;
@@ -129,21 +135,34 @@ void loadBoard() {
     int board_height = sizeof(board) / sizeof(board[0]);
     int board_width = sizeof(board[0]) / sizeof(board[0][0]);
 
-    int numOfMaps = 1;
+    int numOfMaps = 4;
     int chosenMap = std::rand() % numOfMaps;
     std::string mapLayout[4] = {};
-    if (chosenMap == -1) {
-        // board area is 6x4
+    if (chosenMap == 0) {
         mapLayout[0] = "pwhoog";
         mapLayout[1] = "obgwww";
         mapLayout[2] = "owowww";
         mapLayout[3] = "ogoooo";
-    } else if (chosenMap == 0) {
-        // board area is 6x4
+    } else if (chosenMap == 1) {
         mapLayout[0] = "pboooh";
         mapLayout[1] = "wwwwwg";
         mapLayout[2] = "ghoobo";
         mapLayout[3] = "wwwwww";
+    } else if (chosenMap == 2) {
+        mapLayout[0] = "phhboh";
+        mapLayout[1] = "obohbh";
+        mapLayout[2] = "ohohoh";
+        mapLayout[3] = "ooohhg";
+    } else if (chosenMap == 3) {
+        mapLayout[0] = "bbooph";
+        mapLayout[1] = "gwbwhh";
+        mapLayout[2] = "hohbgh";
+        mapLayout[3] = "bobhob";
+    } else if (chosenMap == 4) {
+        mapLayout[0] = "wogwgo";
+        mapLayout[1] = "ohhbob";
+        mapLayout[2] = "wwobhh";
+        mapLayout[3] = "ghpobo";
     }
 
     for (int y = 0; y < board_height; y++) {

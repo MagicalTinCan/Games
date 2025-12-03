@@ -1,0 +1,5 @@
+If you're adding code to your file, and your code gives an error, but still runs, but doesn't add your changes, check the following:
+    are you running main.exe? if so, thats why, exit the main.exe app, vsCode can't update to a file that is running.
+    ?????????????????
+    I don't know any other reason it'd do this, so just come to me. just had to write this down cause this is the 2nd dang time i forgot
+    main.exe was open and it was so annoying trying to push my code.

@@ -38,10 +38,12 @@ struct game {
         do {
             clear();
             std::string chosenPrompt = lookPrompts[rand() % (sizeof(lookPrompts) / sizeof(lookPrompts[0]))];
+            std::cout << chosenPrompt << std::endl;
             std::cout << "\t1) Beg for money" << std::endl;
+            std::cout << "\t           (" << minigamesPlayed << "/" << minigamesNecessaryToEarn << ")" << std::endl;
             std::cout << "\t2) Leave" << std::endl;
             if (chosenPrompt == lookPrompts[1]) {
-                std::cout << "\t3) Scream at the cars passing by";
+                std::cout << "\t3) Scream at the cars passing by" << std::endl;
             }
             std::cout << ":";
             std::cin >> action;
@@ -58,7 +60,12 @@ struct game {
                     minigamesPlayed += 1;
                     if (minigamesPlayed == minigamesNecessaryToEarn) {
                         minigamesPlayed = 0;
-                        std::cout << "" << std::endl;
+                        double moneyEarned = (std::rand() % 80)/10 + 3; //3.0 to 10.0 dollars
+                        std::string moneyPrompt[1][2] = {{"A man walks by you and throws a crumpled lump of paper and coins at your feet\nYou pick it up and it adds up to ","$."}};
+                        int chosenMoneyPrompt = rand() % (sizeof(moneyPrompt) / sizeof(moneyPrompt[0]));
+                        std::cout << moneyPrompt[chosenMoneyPrompt][0] << moneyEarned << moneyPrompt[chosenMoneyPrompt][1] << std::endl;
+                        Data.money += moneyEarned;
+                        std::cin.get();
                     }
                 }
             } else if (action == "3" && chosenPrompt == lookPrompts[1]) {

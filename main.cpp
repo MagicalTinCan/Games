@@ -16,6 +16,13 @@ This file was made entirely by Samuel Campbell
 
 */
 
+void clearTroix() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
+    std::cout << "Test" << std::endl; //clear removes all lines except for the very last one, dunno why.
+    files Files;
+    std::string clearCommand = Files.batchClear;
+    system(clearCommand.c_str());
+}
+
 int main() {
     data Data;
     files Files;
@@ -31,10 +38,14 @@ int main() {
         std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Leave\n: ";
         try {
             std::cin >> action;
-        } catch (...) { //one of the few things c++ actually gets right, universal catches. get rekt if you want to print the err, but still.
+        } catch (...) {
             std::cout << "Give a correct input." << std::endl;
+            std::cin.get();
             successfulInput = false;
         }
+
+        clearTroix();
+
         getline(std::cin, null); //should stop auto input... probably.
         if (successfulInput) {
             if (action == 1) {
@@ -52,6 +63,7 @@ int main() {
                 std::cout << "Alright, now give your account a password to secure it: ";
                 getline(std::cin, password);
                 Data.username = username;
+                Data.password = password;
                 Data.accountDataFile = username + ".txt";
                 std::string makeAccountCommand = "echo " + password + "> " + Files.localDirectory + Files.gitRemoteName + "\\" + Data.accountDataFile;
                 system(makeAccountCommand.c_str());
