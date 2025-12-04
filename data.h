@@ -3,6 +3,7 @@
 #include <fstream>
 #include <filesystem>
 #include "files.h"
+#include "item.h"
 
 /*
 
@@ -23,7 +24,8 @@ struct data {
 
     double money = 0.0; //float gets hella weird with 99.1, it becomes like 99.099998
 
-    //int inventory[] 
+    item inventory[1] = {{"Apple", 3, 4, 0}};
+    // name, buyValue, sellValue
 
     void initalizeData() { //Run this first or im stealing your knees
         std::string initalizeCommand = "python \"" + Files.pythonInitalizer + "\" \"" + Files.localDirectory + "\"525292925252929252529292\"" + Files.gitRepository + "\"525292925252929252529292\"" + Files.gitRemoteName + "\"525292925252929252529292\"" + Files.projectDirectory + "\"";
@@ -32,12 +34,17 @@ struct data {
     }
 
     void importData(std::string dataFile) {
-        std::fstream DATA(dataFile);
+
+        std::fstream DATA(Files.localDirectory + Files.gitRemoteName + "\\" + dataFile);
         std::string textData;
         int dataLine = 0;
-        while (getline(DATA, textData)) {
+        while (getline(DATA, textData)) { //dataLine 0 = password
             if (dataLine == 0) {
-                std::cout << textData;
+                //password
+            } else if (dataLine == 1) {
+                money = std::stod(textData);
+            } else if (dataLine <= sizeof(inventory) / sizeof(inventory[0])) {
+                inventory[dataLine - 2].units = std::stoi(textData);
             }
             dataLine++;
         }
@@ -52,6 +59,11 @@ struct data {
         tempDataHolder = std::to_string(money);
         saveCommand = "echo " + tempDataHolder.substr(0,tempDataHolder.find("."+2)) + ">> " + dataFileAbsLocation; //Gets rid of the ugly zeros after first decimal point. Only necessary for non-integar number values.
         system(saveCommand.c_str());
+        for (int ITEM = 0; ITEM < sizeof(inventory) / sizeof(inventory[0]); ITEM++) {
+            tempDataHolder = std::to_string(inventory[ITEM].units);
+            saveCommand = "echo " + tempDataHolder + " >> " + dataFileAbsLocation;
+            system(saveCommand.c_str());
+        }
         saveCommand = Files.batchUploader + " " + Files.localDirectory + Files.gitRemoteName + " " + dataFile;
         system(saveCommand.c_str()); // runs a batch file which uploads it, c++ doesn't have permission to upload.
     }

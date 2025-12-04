@@ -1,18 +1,13 @@
 #include <iostream>
 
-/*
-
-This file was made entirely by Samuel Campbell
-
-*/
-
 #ifndef item_h
 #define item_h
 
-struct item {
+struct item { //moved this out of item.h because its kinda pointless to have just this in a .h if its not used anywhere else.
     std::string name;
-    float buyValue;
-    float sellValue;
+    double buyValue;
+    double sellValue;
+    int units;
 };
 
 #endif

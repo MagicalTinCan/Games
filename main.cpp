@@ -27,7 +27,7 @@ int main() {
     data Data;
     files Files;
     Data.initalizeData();
-    int action = 0;
+    std::string action = "0";
     bool loggedIn = false;
     std::string username;
     std::string password;
@@ -36,19 +36,14 @@ int main() {
     do {
         bool successfulInput = true;
         std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Leave\n: ";
-        try {
-            std::cin >> action;
-        } catch (...) {
-            std::cout << "Give a correct input." << std::endl;
-            std::cin.get();
-            successfulInput = false;
-        }
+        std::cin >> action;
+        successfulInput = action == "1" || action == "2" || action == "3";
 
         clearTroix();
 
         getline(std::cin, null); //should stop auto input... probably.
         if (successfulInput) {
-            if (action == 1) {
+            if (action == "1") {
                 bool accountAlreadyExists = true;
                 do {
                     std::cout << "Alright, give your character a name" << std::endl;
@@ -73,7 +68,7 @@ int main() {
                 }
                 Data.exportData(Data.accountDataFile);
                 //loggedIn = true;
-            } else if (action == 2) {
+            } else if (action == "2") {
                 bool gaveUp = false;
                 do {
                     std::cout << "Username: ";
@@ -123,10 +118,14 @@ int main() {
                         } while (improperResponse);
                     }
                 } while (!loggedIn && !gaveUp);
-            } else if (action == 3) {
+            } else if (action == "3") {
                 loggedIn = true;
                 return 1; //Ends int main() {}
             }
+        } else {
+            std::cout << "Give a correct input." << std::endl; // std::cin wasnt throwing an err when a char was inputted, so now we're here.
+            std::cin.get();
+            clearTroix();
         }
     } while (!loggedIn);
     return 0;
