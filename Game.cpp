@@ -27,10 +27,17 @@ std::string canAfford(double moneyz, double cost) {
     }
 }
 
+std::string hasItem(int units) {
+    if (units != 0) {
+        return "\033[32m";
+    } else {
+        return "\033[31m";
+    }
+}
+
 struct game {
     data Data;
     files Files;
-    item items[1] = {{"Apple", 3, 4}};
     // item name : string, buy value : float, sell value : float.
     
     std::string username;
@@ -53,6 +60,7 @@ struct game {
             if (chosenPrompt == lookPrompts[1]) {
                 std::cout << "\t3) Scream at the cars passing by" << std::endl;
             }
+            std::cout << "Your wallet: \033[33m" << Data.money << "$\033[m" << std::endl;
             std::cout << ":";
             std::cin >> action;
             if (action == "1") {
@@ -107,9 +115,10 @@ struct game {
                     std::cout << " _____                                                                                       _____ \n( ___ )                                                                                     ( ___ )\n |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | \n |   |   ____  _        _       _                                        _                   |   | \n |   |  / ___|| | _____| |_ ___| |__  _   _  __   ____ _ _ __  ____  ___| |__   ___  _ __    |   | \n |   |  \\___ \\| |/ / _ \\ __/ __| '_ \\| | | | \\ \\ / / _` | '_ \\|_  / / __| '_ \\ / _ \\| '_ \\   |   | \n |   |   ___) |   <  __/ || (__| | | | |_| |  \\ V / (_| | | | |/ /  \\__ \\ | | | (_) | |_) |  |   | \n |   |  |____/|_|\\_\\___|\\__\\___|_| |_|\\__, |   \\_/ \\__,_|_| |_/___| |___/_| |_|\\___/| .__/   |   | \n |   |                                |___/                                         |_|      |   | \n |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| \n(_____)                                                                                     (_____)" << std::endl << std::endl;
                     std::cout << "Todays market: " << std::endl;
                     for (int ITEM = 0; ITEM < sizeof(Data.inventory) / sizeof(Data.inventory[0]); ITEM++) {
-                        std::cout << "\t" << ITEM+1 << ") " << Data.inventory[ITEM].name << " : " << canAfford(Data.money, Data.inventory[ITEM].buyValue) << Data.inventory[ITEM].buyValue << "$\033[m" << std::endl;
+                        std::cout << "\t" << ITEM+1 << ") " << Data.inventory[ITEM].name << " (" << Data.inventory[ITEM].units << "x) : " << canAfford(Data.money, Data.inventory[ITEM].buyValue) << Data.inventory[ITEM].buyValue << "$\033[m" << std::endl;
                     }
                     std::cout << "\nBuy an item by selecting a product ID, or enter L to leave." << std::endl;
+                    std::cout << "Your wallet: \033[33m" << Data.money << "$\033[m" << std::endl;
                     std::cout << ":";
                     int wantedItem;
                     std::cin >> action;
@@ -143,6 +152,55 @@ struct game {
                             clear();
                             std::cout << "The clerk behind the counter screams in your face\n\"DO WE LOOK LIKE WE SELL FOOZ BALLS!? WE'RE SKETCHY VANS SHOP™ NOT FOOZ BALLS INC.!!!\"" << std::endl;
                             std::cout << "He storms off fuming and another clerk comes to your service.\n...";
+                            std::cin.get();
+                            std::cin.get();
+                        }
+                    }
+                }
+            } else if (action == "2") {
+                bool wannaBeHere = true;
+                std::cin.get(); //for some reason the first .get() just gets completely ignored so WHAAATever
+                while (wannaBeHere) {
+                    clear();
+                    std::cout << " _____                                                                                       _____ \n( ___ )                                                                                     ( ___ )\n |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | \n |   |   ____  _        _       _                                        _                   |   | \n |   |  / ___|| | _____| |_ ___| |__  _   _  __   ____ _ _ __  ____  ___| |__   ___  _ __    |   | \n |   |  \\___ \\| |/ / _ \\ __/ __| '_ \\| | | | \\ \\ / / _` | '_ \\|_  / / __| '_ \\ / _ \\| '_ \\   |   | \n |   |   ___) |   <  __/ || (__| | | | |_| |  \\ V / (_| | | | |/ /  \\__ \\ | | | (_) | |_) |  |   | \n |   |  |____/|_|\\_\\___|\\__\\___|_| |_|\\__, |   \\_/ \\__,_|_| |_/___| |___/_| |_|\\___/| .__/   |   | \n |   |                                |___/                                         |_|      |   | \n |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| \n(_____)                                                                                     (_____)" << std::endl << std::endl;
+                    std::cout << "Todays market: " << std::endl;
+                    for (int ITEM = 0; ITEM < sizeof(Data.inventory) / sizeof(Data.inventory[0]); ITEM++) {
+                        std::cout << "\t" << ITEM+1 << ") " << Data.inventory[ITEM].name << " (" << Data.inventory[ITEM].units << "x) : " << hasItem(Data.inventory[ITEM].units) << Data.inventory[ITEM].sellValue << "$\033[m" << std::endl;
+                    }
+                    std::cout << "\nSell an item by selecting a product ID, or enter L to leave." << std::endl;
+                    std::cout << "\033[33mWelcome to Pawn Stars! My expert says your ancient flashdrive with \033[31m20 bitcoin\033[33m on it is worth a stick of gum, but i'll give you two for it!\033[m" << std::endl;
+                    std::cout << "Your wallet: \033[33m" << Data.money << "$\033[m" << std::endl;
+                    std::cout << ":";
+                    int wantedItem;
+                    std::cin >> action;
+                    if (action == "L" || action == "l") {
+                        wannaBeHere = false;
+                    } else {
+                        try {
+                            wantedItem = std::stoi(action) - 1; //oohhh NOW you throw an error if its a char >:(
+                        } catch (...) {
+                            wantedItem = -9;
+                            clear();
+                            std::cout << "You shuffle your bag around and proudly present your empty fist, Rick Harrison does not look amused." << std::endl;
+                            std::cin.get();
+                        }
+                        bool wantedItemInItems = 0 <= wantedItem && wantedItem < sizeof(Data.inventory) / sizeof(Data.inventory[0]);
+                        if (wantedItemInItems) {
+                            std::string itemName = Data.inventory[wantedItem].name;
+                            double itemWorth = Data.inventory[wantedItem].sellValue;
+                            if (Data.inventory[wantedItem].units != 0) {
+                                Data.money += itemWorth;
+                                Data.inventory[wantedItem].units -= 1;
+                                //std::cin.get();
+                                //std::cin.get();
+                            } else {
+                                std::cout << "You shuffle your bag around and proudly present your empty fist, Rick Harrison does not look amused.";
+                                std::cin.get();
+                                std::cin.get();
+                            }
+                        } else {
+                            clear();
+                            std::cout << "You shuffle your bag around and proudly present your empty fist, Rick Harrison does not look amused." << std::endl;
                             std::cin.get();
                             std::cin.get();
                         }

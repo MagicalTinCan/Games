@@ -24,7 +24,11 @@ struct data {
 
     double money = 0.0; //float gets hella weird with 99.1, it becomes like 99.099998
 
-    item inventory[1] = {{"Apple", 3, 4, 0}};
+    item inventory[3] = {
+        {"Apple", 3, 4, 0},
+        {"Pear", 4, 5, 0},
+        {"Pineapple", 5, 8}
+    };
     // name, buyValue, sellValue
 
     void initalizeData() { //Run this first or im stealing your knees
@@ -38,13 +42,15 @@ struct data {
         std::fstream DATA(Files.localDirectory + Files.gitRemoteName + "\\" + dataFile);
         std::string textData;
         int dataLine = 0;
+        int inventoryOffset = 0;
         while (getline(DATA, textData)) { //dataLine 0 = password
             if (dataLine == 0) {
                 //password
             } else if (dataLine == 1) {
                 money = std::stod(textData);
-            } else if (dataLine <= sizeof(inventory) / sizeof(inventory[0])) {
-                inventory[dataLine - 2].units = std::stoi(textData);
+            } else if (dataLine - 2 <= sizeof(inventory) / sizeof(inventory[0])) {
+                inventory[inventoryOffset].units = std::stoi(textData);
+                inventoryOffset++;
             }
             dataLine++;
         }
