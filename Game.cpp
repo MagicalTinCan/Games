@@ -214,10 +214,34 @@ struct game {
         std::cin.get();
     }
 
+    void casino() {
+        clear();
+        std::cout << "You walk around for a bit when you find the enterance. A man comes barging out with a red face and clentched fists, he power walks away.\nYou are now at" << std::endl;
+        std::cout << "                                 .----------------.  .----------------.  .----------------.                             \n                                | .--------------. || .--------------. || .--------------. |                            \n                                | |  _________   | || |  ____  ____  | || |  _________   | |                            \n                                | | |  _   _  |  | || | |_   ||   _| | || | |_   ___  |  | |                            \n                                | | |_/ | | \\_|  | || |   | |__| |   | || |   | |_  \\_|  | |                            \n                                | |     | |      | || |   |  __  |   | || |   |  _|  _   | |                            \n                                | |    _| |_     | || |  _| |  | |_  | || |  _| |___/ |  | |                            \n                                | |   |_____|    | || | |____||____| | || | |_________|  | |                            \n                                | |              | || |              | || |              | |                            \n                                | '--------------' || '--------------' || '--------------' |                            \n                                 '----------------'  '----------------'  '----------------'                             \n .----------------.  .----------------.  .----------------.  .----------------.  .-----------------. .----------------. \n| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |\n| |     ______   | || |      __      | || |    _______   | || |     _____    | || | ____  _____  | || |     ____     | |\n| |   .' ___  |  | || |     /  \\     | || |   /  ___  |  | || |    |_   _|   | || ||_   \\|_   _| | || |   .'    `.   | |\n| |  / .'   \\_|  | || |    / /\\ \\    | || |  |  (__ \\_|  | || |      | |     | || |  |   \\ | |   | || |  /  .--.  \\  | |\n| |  | |         | || |   / ____ \\   | || |   '.___`-.   | || |      | |     | || |  | |\\ \\| |   | || |  | |    | |  | |\n| |  \\ `.___.'\\  | || | _/ /    \\ \\_ | || |  |`\\____) |  | || |     _| |_    | || | _| |_\\   |_  | || |  \\  `--'  /  | |\n| |   `._____.'  | || ||____|  |____|| || |  |_______.'  | || |    |_____|   | || ||_____|\\____| | || |   `.____.'   | |\n| |              | || |              | || |              | || |              | || |              | || |              | |\n| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |\n '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' " << std::endl;
+        std::cin.get();
+        std::string action;
+        do {
+            clear();
+            std::cout << " .----------------.  .----------------.  .----------------.  .----------------.  .-----------------. .----------------. \n| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |\n| |     ______   | || |      __      | || |    _______   | || |     _____    | || | ____  _____  | || |     ____     | |\n| |   .' ___  |  | || |     /  \\     | || |   /  ___  |  | || |    |_   _|   | || ||_   \\|_   _| | || |   .'    `.   | |\n| |  / .'   \\_|  | || |    / /\\ \\    | || |  |  (__ \\_|  | || |      | |     | || |  |   \\ | |   | || |  /  .--.  \\  | |\n| |  | |         | || |   / ____ \\   | || |   '.___`-.   | || |      | |     | || |  | |\\ \\| |   | || |  | |    | |  | |\n| |  \\ `.___.'\\  | || | _/ /    \\ \\_ | || |  |`\\____) |  | || |     _| |_    | || | _| |_\\   |_  | || |  \\  `--'  /  | |\n| |   `._____.'  | || ||____|  |____|| || |  |_______.'  | || |    |_____|   | || ||_____|\\____| | || |   `.____.'   | |\n| |              | || |              | || |              | || |              | || |              | || |              | |\n| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |\n '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' " << std::endl;
+            std::cout << "\nPick your vice:\n\t1) Blackjack\n\t2) Slot machine\n\t3) Leave";
+            std::cin >> action;
+            if (action == "1" || action == "2") {
+                std::cout << "You walk over to play, but the place is a mess.\nYou decide to not play for now..." << std::endl;
+                std::cin.get();
+                std::cin.get();
+            }
+        } while (action != "3");
+        
+    }
+
     void main() {
         Data.username = username; // This one you can use :P
         Data.accountDataFile = accountDataFile; // used for data-saving purposes, disregard if your name isn't Samuel. If it is, get rekt lmao
         std::string action = "-1";
+
+        std::string preActionSTR = "-1";
+        int preActionInt = 0; //these two are used together to prevent softlocking/hardlocking
+
         Data.importData(accountDataFile);
         do {
             clear();
@@ -229,17 +253,37 @@ struct game {
             std::cout << "\ts) Save game" << std::endl;
             std::cout << "\tl) Leave game" << std::endl; //changing input from e to l just incase people fat finger s and hit e.
             std::cout << ":";
-            std::cin >> action;
-            std::cout << action;
+            std::cin >> preActionSTR;
+            bool worked = true;
+            try {
+                preActionInt = std::stoi(preActionSTR);
+            } catch (...) {
+                worked = false;
+                bool appropriateInput = preActionSTR == "s" || preActionSTR == "S" || preActionSTR == "l" || preActionSTR == "L";
+                if (appropriateInput) {
+                    action = preActionSTR;
+                } else {
+                    clear();
+                    std::cout << "Give a correct input." << std::endl;
+                    std::cin.get();
+                }
+            }
+            if (worked) {
+                action = std::to_string(preActionInt);
+            }
+            //std::cout << action;
             std::cin.get();
             if (action == "1") {
                 streets();
             } else if (action == "2") {
                 market();
             } else if (action == "3") {
+                casino();
+                /*
                 clear();
                 std::cout << "Not implemented yet.\n:";
                 std::cin.get();
+                */
             } else if (action == "s") {
                 Data.password = password;
                 Data.exportData(accountDataFile);
