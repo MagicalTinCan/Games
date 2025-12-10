@@ -5,6 +5,7 @@
 #include "item.h"
 
 #include "sokoban.cpp"
+#include "hangman.cpp"
 
 /*
 
@@ -13,7 +14,7 @@ This file was made entirely by Samuel Campbell
 */
 
 void clear() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
-    std::cout << "Test" << std::endl; //clear removes all lines except for the very last one, dunno why.
+    std::cout << std::endl; //clear removes all lines except for the very last one, dunno why.
     files Files;
     std::string clearCommand = Files.batchClear;
     system(clearCommand.c_str());
@@ -65,13 +66,17 @@ struct game {
             std::cin >> action;
             if (action == "1") {
                 // PLAY GAMES HERE
-                int chosenGame = std::rand() % 1;
+                int chosenGame = std::rand() % 2;
                 bool wonGame;
                 if (chosenGame == 0) {
                     sokobanGame sokoban;
                     wonGame = sokoban.playGame();
+                } else if (chosenGame == 1) {
+                    hangmanGame hangman;
+                    wonGame = hangman.playGame();
                 }
                 if (wonGame) {
+                    clear();
                     wonGame = false;
                     minigamesPlayed += 1;
                     if (minigamesPlayed == minigamesNecessaryToEarn) {
@@ -223,7 +228,7 @@ struct game {
         do {
             clear();
             std::cout << " .----------------.  .----------------.  .----------------.  .----------------.  .-----------------. .----------------. \n| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |\n| |     ______   | || |      __      | || |    _______   | || |     _____    | || | ____  _____  | || |     ____     | |\n| |   .' ___  |  | || |     /  \\     | || |   /  ___  |  | || |    |_   _|   | || ||_   \\|_   _| | || |   .'    `.   | |\n| |  / .'   \\_|  | || |    / /\\ \\    | || |  |  (__ \\_|  | || |      | |     | || |  |   \\ | |   | || |  /  .--.  \\  | |\n| |  | |         | || |   / ____ \\   | || |   '.___`-.   | || |      | |     | || |  | |\\ \\| |   | || |  | |    | |  | |\n| |  \\ `.___.'\\  | || | _/ /    \\ \\_ | || |  |`\\____) |  | || |     _| |_    | || | _| |_\\   |_  | || |  \\  `--'  /  | |\n| |   `._____.'  | || ||____|  |____|| || |  |_______.'  | || |    |_____|   | || ||_____|\\____| | || |   `.____.'   | |\n| |              | || |              | || |              | || |              | || |              | || |              | |\n| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |\n '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' " << std::endl;
-            std::cout << "\nPick your vice:\n\t1) Blackjack\n\t2) Slot machine\n\t3) Leave";
+            std::cout << "\nPick your vice:\n\t1) Blackjack\n\t2) Slot machine\n\t3) Leave\n:";
             std::cin >> action;
             if (action == "1" || action == "2") {
                 std::cout << "You walk over to play, but the place is a mess.\nYou decide to not play for now..." << std::endl;
@@ -231,7 +236,6 @@ struct game {
                 std::cin.get();
             }
         } while (action != "3");
-        
     }
 
     void main() {

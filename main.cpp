@@ -17,7 +17,7 @@ This file was made entirely by Samuel Campbell
 */
 
 void clearTroix() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
-    std::cout << "Test" << std::endl; //clear removes all lines except for the very last one, dunno why.
+    std::cout << std::endl; //clear removes all lines except for the very last one, dunno why.
     files Files;
     std::string clearCommand = Files.batchClear;
     system(clearCommand.c_str());
@@ -35,9 +35,9 @@ int main() {
     // Serves as a buffer for getline(cin) cause for some reason, getline takes whatever was put in for std::cin on a prior command
     do {
         bool successfulInput = true;
-        std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Leave\n: ";
+        std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Tutorial\n\tl) Exit\n: ";
         std::cin >> action;
-        successfulInput = action == "1" || action == "2" || action == "3";
+        successfulInput = action == "1" || action == "2" || action == "3" || action == "l";
 
         clearTroix();
 
@@ -71,6 +71,7 @@ int main() {
             } else if (action == "2") {
                 bool gaveUp = false;
                 do {
+                    clearTroix();
                     std::cout << "Username: ";
                     getline(std::cin, username);
                     std::cout << "Password: ";
@@ -90,6 +91,7 @@ int main() {
                             Game.password = password;
                             Game.accountDataFile = username + ".txt";
                             Game.main();
+                            clearTroix();
                         } else {
                             std::cout << "Username/Password incorrect!" << std::endl;
                             //std::cout << "\"" << password << "\"" << std::endl; Testing purposes. DO NOT TOUCH.
@@ -118,7 +120,10 @@ int main() {
                         } while (improperResponse);
                     }
                 } while (!loggedIn && !gaveUp);
-            } else if (action == "3") {
+                loggedIn = false; //Makes it so they return to title screen instead of getting boot'd out
+            } else if  (action == "3") {
+                std::cout << "";
+            } else if (action == "l") {
                 loggedIn = true;
                 return 1; //Ends int main() {}
             }

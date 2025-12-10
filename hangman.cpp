@@ -13,55 +13,54 @@ Assignment
 
 #include "files.h"
 
-using namespace std;
-
 struct HangmanGame {
-    string word;
-    string display;
-    string used;
+    std::string word;
+    std::string display;
+    std::string used;
     int tries;
 
-    HangmanGame(string w) {
+    HangmanGame(std::string w) {
         word = w;
-        display = string(w.length(), '_');
+        display = std::string(w.length(), '_');
         used = "";
         tries = 6;
     }
 };
 
 void clearQuatre() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
-    std::cout << "Test" << std::endl; //clear removes all lines except for the very last one, dunno why.
+    std::cout << std::endl; //clear removes all lines except for the very last one, dunno why.
     files Files;
     std::string clearCommand = Files.batchClear;
     system(clearCommand.c_str());
+}
 
 void drawHangman(int tries) {
     int stage = 6 - tries;
 
-    cout << "\n";
-    cout << " +----+\n";
-    cout << " |    |\n";
+    std::cout << "\n";
+    std::cout << " +----+\n";
+    std::cout << " |    |\n";
 
-    if (stage >= 1) cout << " O    |\n";
-    else            cout << "      |\n";
+    if (stage >= 1) std::cout << " O    |\n";
+    else            std::cout << "      |\n";
 
-    if (stage == 2) cout << " |    |\n";
-    else if (stage == 3) cout << "/|    |\n";
-    else if (stage >= 4) cout << "/|\\   |\n";
-    else cout << "      |\n";
+    if (stage == 2) std::cout << " |    |\n";
+    else if (stage == 3) std::cout << "/|    |\n";
+    else if (stage >= 4) std::cout << "/|\\   |\n";
+    else std::cout << "      |\n";
 
-    if (stage == 5) cout << "/     |\n";
-    else if (stage >= 6) cout << "/ \\   |\n";
-    else cout << "      |\n";
+    if (stage == 5) std::cout << "/     |\n";
+    else if (stage >= 6) std::cout << "/ \\   |\n";
+    else std::cout << "      |\n";
 
-    cout << "      |\n";
-    cout << "=========\n\n";
+    std::cout << "      |\n";
+    std::cout << "=========\n\n";
 }
 
 struct hangmanGame {
 
     bool playGame() {
-        vector<string> words = {
+        std::vector<std::string> words = {
             "apple","computer","school","hangman","water","apple","banana","orange","grape","peach",
             "melon","pear","mango","strawberry","blueberry","raspberry","pineapple","watermelon",
             "kiwi","papaya","coconut","plum","cherry","lemon","lime","apricot","fig","date","almond",
@@ -102,22 +101,22 @@ struct hangmanGame {
         srand(time(0));
         HangmanGame game(words[rand() % words.size()]);
     
-        cout << "=== Hangman ===\n";
+        std::cout << "=== Hangman ===\n";
     
         while (game.tries > 0 && game.display != game.word) {
-            system("clear");
+            clearQuatre();
             drawHangman(game.tries);
     
-            cout << "Word: " << game.display << endl;
-            cout << "Tries: " << game.tries << endl;
-            cout << "Used: " << game.used << endl;
+            std::cout << "Word: " << game.display << std::endl;
+            std::cout << "Tries: " << game.tries << std::endl;
+            std::cout << "Used: " << game.used << std::endl;
     
-            cout << "Guess a letter: ";
+            std::cout << "Guess a letter: ";
             char letter;
-            cin >> letter;
+            std::cin >> letter;
     
-            if (game.used.find(letter) != string::npos) {
-                cout << "Already used.\n";
+            if (game.used.find(letter) != std::string::npos) {
+                std::cout << "Already used.\n";
                 continue;
             }
     
@@ -132,22 +131,21 @@ struct hangmanGame {
             }
     
             if (!found) {
-                cout << "Wrong.\n";
+                std::cout << "Wrong.\n";
                 game.tries--;
             } else {
-                cout << "Correct.\n";
+                std::cout << "Correct.\n";
             }
         }
     
         drawHangman(game.tries);
     
-        if (game.display == game.word)
-            cout << "You win! The word was: " << game.word << "\n";
+        if (game.display == game.word) {
+            std::cout << "You win! The word was: " << game.word << "\n";
             return true;
-        else
-            cout << "You lost! The word was: " << game.word << "\n";
+        } else {
+            std::cout << "You lost! The word was: " << game.word << "\n";
             return false;
-    
-        return 0;
+        }
     } 
-}
+};
