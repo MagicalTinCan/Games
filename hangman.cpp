@@ -142,9 +142,13 @@ struct hangmanGame {
     
         if (game.display == game.word) {
             std::cout << "You win! The word was: " << game.word << "\n";
+            std::cin.get();
+            std::cin.get();
             return true;
         } else {
             std::cout << "You lost! The word was: " << game.word << "\n";
+            std::cin.get();
+            std::cin.get();
             return false;
         }
     } 

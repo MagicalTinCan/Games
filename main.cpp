@@ -24,9 +24,11 @@ void clearTroix() { //C++ throws a hissy fit if this is put in data.h, but doesn
 }
 
 int main() {
+
+    srand(time(0)); // turns out rand isnt so rand. If this isnt here its always gonna be the same. -9 iq language.
+
     data Data;
     files Files;
-    Data.initalizeData();
     std::string action = "0";
     bool loggedIn = false;
     std::string username;
@@ -35,7 +37,7 @@ int main() {
     // Serves as a buffer for getline(cin) cause for some reason, getline takes whatever was put in for std::cin on a prior command
     do {
         bool successfulInput = true;
-        std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Tutorial\n\tl) Exit\n: ";
+        std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Offline mode\n\t4) Tutorial\n\tl) Exit\n: ";
         std::cin >> action;
         successfulInput = action == "1" || action == "2" || action == "3" || action == "l";
 
@@ -44,6 +46,7 @@ int main() {
         getline(std::cin, null); //should stop auto input... probably.
         if (successfulInput) {
             if (action == "1") {
+                Data.initalizeData();
                 bool accountAlreadyExists = true;
                 do {
                     std::cout << "Alright, give your character a name" << std::endl;
@@ -69,6 +72,7 @@ int main() {
                 Data.exportData(Data.accountDataFile);
                 //loggedIn = true;
             } else if (action == "2") {
+                Data.initalizeData();
                 bool gaveUp = false;
                 do {
                     clearTroix();
@@ -122,7 +126,12 @@ int main() {
                 } while (!loggedIn && !gaveUp);
                 loggedIn = false; //Makes it so they return to title screen instead of getting boot'd out
             } else if  (action == "3") {
-                std::cout << "";
+                game Game;
+                Game.password = "Buffer";
+                Game.main(true);
+                clearTroix();
+            } else if (action == "4") {
+                std::cout << "Do sum tutorial stuff YO.";
             } else if (action == "l") {
                 loggedIn = true;
                 return 1; //Ends int main() {}

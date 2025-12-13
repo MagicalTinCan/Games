@@ -238,7 +238,7 @@ struct game {
         } while (action != "3");
     }
 
-    void main() {
+    void main(bool offlineMode = false) {
         Data.username = username; // This one you can use :P
         Data.accountDataFile = accountDataFile; // used for data-saving purposes, disregard if your name isn't Samuel. If it is, get rekt lmao
         std::string action = "-1";
@@ -246,7 +246,7 @@ struct game {
         std::string preActionSTR = "-1";
         int preActionInt = 0; //these two are used together to prevent softlocking/hardlocking
 
-        Data.importData(accountDataFile);
+        Data.importData(accountDataFile, offlineMode);
         do {
             clear();
             std::string lookPrompts[3] = {"You look around, you can see 3 places nearby:", "You look around, you can see 3 places nearby:", "You look around, you can see 3 places nearby:"};
@@ -290,7 +290,7 @@ struct game {
                 */
             } else if (action == "s") {
                 Data.password = password;
-                Data.exportData(accountDataFile);
+                Data.exportData(accountDataFile, offlineMode);
             }
         } while (action != "l");
     }

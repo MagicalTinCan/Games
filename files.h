@@ -20,6 +20,7 @@ struct files {
     std::string batchUploader = projectDirectory + "upload.bat";
     std::string batchPull = projectDirectory + "pull.bat";
     std::string batchClear = projectDirectory + "clearTheDamnScreen.bat";
+    std::string offlineAccount = projectDirectory + "offlineAccount.txt";
 };
 
 

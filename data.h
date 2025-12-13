@@ -37,9 +37,14 @@ struct data {
         //std::cout << initalizeCommand;
     }
 
-    void importData(std::string dataFile) {
+    void importData(std::string dataFile, bool offlineMode = false) {
 
-        std::fstream DATA(Files.localDirectory + Files.gitRemoteName + "\\" + dataFile);
+        std::string fileOfInterest = Files.localDirectory + Files.gitRemoteName + "\\" + dataFile;
+
+        if (offlineMode)
+            fileOfInterest = Files.offlineAccount;
+
+        std::fstream DATA(fileOfInterest);
         std::string textData;
         int dataLine = 0;
         int inventoryOffset = 0;
@@ -56,22 +61,27 @@ struct data {
         }
     }
 
-    void exportData(std::string dataFile) {
+    void exportData(std::string dataFile, bool offlineMode = false) {
         std::string saveCommand;
         std::string tempDataHolder;
         std::string dataFileAbsLocation = Files.localDirectory + Files.gitRemoteName + "\\" + dataFile;
+        if (offlineMode)
+            dataFileAbsLocation = Files.offlineAccount;
+
         saveCommand = "echo " + password + "> " + dataFileAbsLocation;
         system(saveCommand.c_str());
         tempDataHolder = std::to_string(money);
         saveCommand = "echo " + tempDataHolder.substr(0,tempDataHolder.find("."+2)) + ">> " + dataFileAbsLocation; //Gets rid of the ugly zeros after first decimal point. Only necessary for non-integar number values.
-        system(saveCommand.c_str());
+        system(saveCommand.c_str());                                                                               //Doesnt even do it anyway. WHAT EVERRRR -_-
         for (int ITEM = 0; ITEM < sizeof(inventory) / sizeof(inventory[0]); ITEM++) {
             tempDataHolder = std::to_string(inventory[ITEM].units);
             saveCommand = "echo " + tempDataHolder + " >> " + dataFileAbsLocation;
             system(saveCommand.c_str());
         }
-        saveCommand = Files.batchUploader + " " + Files.localDirectory + Files.gitRemoteName + " " + dataFile;
-        system(saveCommand.c_str()); // runs a batch file which uploads it, c++ doesn't have permission to upload.
+        if (!offlineMode) {
+            saveCommand = Files.batchUploader + " " + Files.localDirectory + Files.gitRemoteName + " " + dataFile;
+            system(saveCommand.c_str()); // runs a batch file which uploads it, c++ doesn't have permission to upload.
+        }
     }
 
 };
