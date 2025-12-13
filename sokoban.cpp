@@ -172,12 +172,7 @@ void loadBoard() {
     }
 }
 
-void clearDeux() { //C++ gets pissy if two functions in TWO DANG SERPERATE FILES have the same name. renamed it to include deux
-    std::cout << std::endl; //clear removes all lines except for the very last one, dunno why.
-    files Files;
-    std::string clearCommand = Files.batchClear;
-    system(clearCommand.c_str());
-}
+void clear();
 
 struct sokobanGame {
     bool playGame() { //change to bool playGame and stick in struct named sokobanGame when moving to main game
@@ -211,7 +206,7 @@ struct sokobanGame {
         
         while (gemCount != 0) {
         
-            clearDeux();
+            clear();
         
             for (int y = 0; y < board_height; y++) {
                 std::cout << beam << std::endl;

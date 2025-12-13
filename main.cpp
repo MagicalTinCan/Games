@@ -5,6 +5,7 @@
 #include "data.h" //changed back to .h instead of .cpp because of initalizing data and
 #include "files.h"
 #include "Game.cpp"
+#include "tutorial.cpp"
 /*
 #include "export.h"
 depreciated and non-functional
@@ -16,7 +17,7 @@ This file was made entirely by Samuel Campbell
 
 */
 
-void clearTroix() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
+void clear() { //I take it back, past me didn't know what the hell he was doing. C++ maybe you are good.
     std::cout << std::endl; //clear removes all lines except for the very last one, dunno why.
     files Files;
     std::string clearCommand = Files.batchClear;
@@ -39,9 +40,9 @@ int main() {
         bool successfulInput = true;
         std::cout << "Hello, welcome to Project Nat\n\t1) New game\n\t2) Continue\n\t3) Offline mode\n\t4) Tutorial\n\tl) Exit\n: ";
         std::cin >> action;
-        successfulInput = action == "1" || action == "2" || action == "3" || action == "l";
+        successfulInput = action == "1" || action == "2" || action == "3" || action == "4" || action == "l";
 
-        clearTroix();
+        clear();
 
         getline(std::cin, null); //should stop auto input... probably.
         if (successfulInput) {
@@ -75,7 +76,7 @@ int main() {
                 Data.initalizeData();
                 bool gaveUp = false;
                 do {
-                    clearTroix();
+                    clear();
                     std::cout << "Username: ";
                     getline(std::cin, username);
                     std::cout << "Password: ";
@@ -95,7 +96,7 @@ int main() {
                             Game.password = password;
                             Game.accountDataFile = username + ".txt";
                             Game.main();
-                            clearTroix();
+                            clear();
                         } else {
                             std::cout << "Username/Password incorrect!" << std::endl;
                             //std::cout << "\"" << password << "\"" << std::endl; Testing purposes. DO NOT TOUCH.
@@ -129,9 +130,11 @@ int main() {
                 game Game;
                 Game.password = "Buffer";
                 Game.main(true);
-                clearTroix();
+                clear();
             } else if (action == "4") {
-                std::cout << "Do sum tutorial stuff YO.";
+                tutorial TUTORIAL;
+                TUTORIAL.inquireYerKnowledge();
+                clear();
             } else if (action == "l") {
                 loggedIn = true;
                 return 1; //Ends int main() {}
@@ -139,7 +142,7 @@ int main() {
         } else {
             std::cout << "Give a correct input." << std::endl; // std::cin wasnt throwing an err when a char was inputted, so now we're here.
             std::cin.get();
-            clearTroix();
+            clear();
         }
     } while (!loggedIn);
     return 0;

@@ -13,12 +13,7 @@ This file was made entirely by Samuel Campbell
 
 */
 
-void clear() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
-    std::cout << std::endl; //clear removes all lines except for the very last one, dunno why.
-    files Files;
-    std::string clearCommand = Files.batchClear;
-    system(clearCommand.c_str());
-}
+void clear();
 
 std::string canAfford(double moneyz, double cost) {
     if (moneyz >= cost) {

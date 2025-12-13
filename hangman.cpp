@@ -27,12 +27,7 @@ struct HangmanGame {
     }
 };
 
-void clearQuatre() { //C++ throws a hissy fit if this is put in data.h, but doesn't if its here. Barbaric.
-    std::cout << std::endl; //clear removes all lines except for the very last one, dunno why.
-    files Files;
-    std::string clearCommand = Files.batchClear;
-    system(clearCommand.c_str());
-}
+void clear();
 
 void drawHangman(int tries) {
     int stage = 6 - tries;
@@ -104,7 +99,7 @@ struct hangmanGame {
         std::cout << "=== Hangman ===\n";
     
         while (game.tries > 0 && game.display != game.word) {
-            clearQuatre();
+            clear();
             drawHangman(game.tries);
     
             std::cout << "Word: " << game.display << std::endl;
