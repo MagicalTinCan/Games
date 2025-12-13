@@ -63,7 +63,7 @@ struct tutorial
             } else if  (action == "2") {
                 do {
                     clear();
-                    std::cout << "Very well, so you want to learn more about the game. Surprising you came to a wiki to do that, its rather thrilling you came.\nFlat humor aside, what do you want to know?\n\n\t1) The streets\n\t2) The market\n\t3) The casino\n\t4) The story\n\tl) Leave division\n\n:";
+                    std::cout << "Very well, so you want to learn more about the game. Surprising you came to a wiki to do that, its rather thrilling you came.\nFlat humor aside, what do you want to know?\n\n\t1) The streets\n\t2) The market\n\t3) The casino\n\tl) Leave division\n\n:";
                     std::cin >> action;
                     if (action == "1") {
                         do {
@@ -100,6 +100,16 @@ struct tutorial
                             }
                         } while (action != "l");
                         action = "blah";
+                    } else if (action == "2") {
+                        clear();
+                        std::cout << "So in the market place, you can do two things:\n\tBuy things at Sketchy Vans Shop™ from vendor Dr. Yeller, who claims he got his doctorate from a homeless man down the street.\n\tSell things at Pawn Stars to vendor Rick Harrison, a man who apparently has an \"expert\" for everything and totally isn't stealing your money\n\nFor your sake, lets hope Dr. Yeller and Rick don't meet, then you're out of business!";
+                        std::cin.get();
+                        std::cin.get();
+                    } else if (action == "3") {
+                        clear();
+                        std::cout << "The casino is currently under construction, legend says if you give the prince of Nigera \033[38;2;0;255;0m250$\033[m you've got from begging or from the market they'll finally be able to build it.";
+                        std::cin.get();
+                        std::cin.get();
                     }
                 } while (action != "l");
                 action = "blah";
