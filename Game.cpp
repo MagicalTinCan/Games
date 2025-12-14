@@ -6,6 +6,7 @@
 
 #include "sokoban.cpp"
 #include "hangman.cpp"
+#include "checkers.cpp"
 
 /*
 
@@ -32,7 +33,7 @@ std::string hasItem(int units) {
 }
 
 struct game {
-    data Data;
+    gamedata Data;
     files Files;
     // item name : string, buy value : float, sell value : float.
     
@@ -61,7 +62,7 @@ struct game {
             std::cin >> action;
             if (action == "1") {
                 // PLAY GAMES HERE
-                int chosenGame = std::rand() % 2;
+                int chosenGame = std::rand() % 3;
                 bool wonGame;
                 if (chosenGame == 0) {
                     sokobanGame sokoban;
@@ -69,6 +70,9 @@ struct game {
                 } else if (chosenGame == 1) {
                     hangmanGame hangman;
                     wonGame = hangman.playGame();
+                } else if (chosenGame == 2) {
+                    checkersGame checkers;
+                    wonGame = checkers.playGame();
                 }
                 if (wonGame) {
                     clear();

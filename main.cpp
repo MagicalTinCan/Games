@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
-#include "data.h" //changed back to .h instead of .cpp because of initalizing data and
+#include "data.h"
 #include "files.h"
 #include "Game.cpp"
 #include "tutorial.cpp"
@@ -28,7 +28,7 @@ int main() {
 
     srand(time(0)); // turns out rand isnt so rand. If this isnt here its always gonna be the same. -9 iq language.
 
-    data Data;
+    gamedata Data;
     files Files;
     std::string action = "0";
     bool loggedIn = false;

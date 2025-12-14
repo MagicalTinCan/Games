@@ -14,7 +14,7 @@ This file was made entirely by Samuel Campbell
 #ifndef data_h
 #define data_h
 
-struct data {
+struct gamedata {
 
     files Files;
 
